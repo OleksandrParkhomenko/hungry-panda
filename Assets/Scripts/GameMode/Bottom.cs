@@ -12,6 +12,7 @@ public class Bottom : MonoBehaviour {
 	public GameObject loseCanvas;
 	public GameObject itemsShop;
 	public GameObject bgShop;
+	public GameObject infoCanvas;
 
 	private GameObject[] backgrounds;
 
@@ -23,9 +24,11 @@ public class Bottom : MonoBehaviour {
 
 		shopCanvas = GameObject.Find("ShopCanvas");
 		loseCanvas = GameObject.Find ("LoseCanvas");
+		infoCanvas = GameObject.Find ("InfoCanvas");
 
 		shopCanvas.SetActive(false);
 		loseCanvas.SetActive(false);
+		infoCanvas.SetActive(false);
 		bgShop.SetActive(false);
 
 	}
@@ -35,10 +38,21 @@ public class Bottom : MonoBehaviour {
 		if (GameObject.Find("Panda")) {
 			setScore();
 		} else {
-			GameObject.Find("FinalScore").GetComponent<FinalScore>().showFinalScore();
+			//GameObject.Find("FinalScore").GetComponent<FinalScore>().showFinalScore();
 		}
 	}
 
+	void OnDestroy() {
+		PlayerPrefs.SetString("lastTimeEntered", System.DateTime.Now.ToString());
+	}
+
+	void OnApplicationPause(bool pauseStatus) {
+    	if (pauseStatus) {
+        	PlayerPrefs.SetString("lastTimeEntered", System.DateTime.Now.ToString());
+    	} else {
+    		setTimer();
+    	}
+    }
 
 	void OnCollisionEnter2D (Collision2D obj) {
 		if (obj.gameObject.tag == "bamboo" && GameObject.Find ("Panda").GetComponent<PandaGame> ().lives != 0) {
@@ -72,6 +86,5 @@ public class Bottom : MonoBehaviour {
 
 	private void setScore() {
 		score = GameObject.Find("Panda").GetComponent<PandaGame>().points;
-		Debug.Log(GameObject.Find("Panda").GetComponent<PandaGame>().points);
 	}
 }

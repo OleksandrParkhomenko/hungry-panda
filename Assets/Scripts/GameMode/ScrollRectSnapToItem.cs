@@ -25,16 +25,16 @@ public class ScrollRectSnapToItem : MonoBehaviour
 
 	public Vector3 panelPosition;
 	
-	//public float 
 	
 	void Awake(){
-		objDistance  = (float)Mathf.Abs(obj[1].GetComponent<RectTransform>().position.x - obj[0].GetComponent<RectTransform>().position.x);
-		panelPosition = panel.position;
-		delta = panelPosition.x + objDistance;
+
 	}
 
 
+
 	void Start() {
+		setScrollRectSettings();
+
 		expectedObjIndex = -1;
 
 		objLength = obj.Length;
@@ -79,8 +79,13 @@ public class ScrollRectSnapToItem : MonoBehaviour
 		checkLastFirst();
 	}
 
+	private void setScrollRectSettings() {
+		objDistance  = (float)Mathf.Abs(obj[1].GetComponent<RectTransform>().position.x - obj[0].GetComponent<RectTransform>().position.x);
+		panelPosition = panel.position;
+		delta = panelPosition.x + objDistance;
+	}
 
-	void LerpToBttn(float position, float force = 10.0f)
+	private void LerpToBttn(float position, float force = 10.0f)
 	{
 		float newX = Mathf.Lerp (panel.position.x, position+delta, Time.deltaTime * force);
 		Vector2 newPosition = new Vector2 (newX, panel.position.y);
@@ -103,13 +108,13 @@ public class ScrollRectSnapToItem : MonoBehaviour
 
 	public void nextObj() {
 		expectedObjIndex = minObjIndex + 1;
-		LerpToBttn(expectedObjIndex * -objDistance,10.0f);
+		LerpToBttn(expectedObjIndex * -objDistance);
 	}
 
 
 	public void prevObj() {
 		expectedObjIndex = minObjIndex - 1; 
-		LerpToBttn(expectedObjIndex * -objDistance,10.0f);
+		LerpToBttn(expectedObjIndex * -objDistance);
 	}
 
 

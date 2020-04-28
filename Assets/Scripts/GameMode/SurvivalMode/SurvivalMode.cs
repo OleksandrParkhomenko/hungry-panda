@@ -110,13 +110,14 @@ public class SurvivalMode : MonoBehaviour {
 			//spawning items
 			if (timer ()) {
 				GameObject currGO;
-				if (itemCounter == timeForAddLife) {
-					currGO = Instantiate (additionalLife);
-					timeForStone++;
-					timeForCoin++;
-					timeForSpeedUp++;
-					timeForAddLife += Random.Range (10, 15);
-				} else if (itemCounter == timeForCoin) {
+				// if (itemCounter == timeForAddLife) {
+				// 	currGO = Instantiate (additionalLife);
+				// 	timeForStone++;
+				// 	timeForCoin++;
+				// 	timeForSpeedUp++;
+				// 	timeForAddLife += Random.Range (10, 15);
+				// } else
+				if (itemCounter == timeForCoin) {
 					currGO = Instantiate (coin);
 					timeForStone++;
 					timeForAddLife++;

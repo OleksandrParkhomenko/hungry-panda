@@ -87,7 +87,11 @@ public class PandaGame : MonoBehaviour {
 		}
 
 		takeScreenShot();
-		//Debug.Log(PlayerPrefs.GetString("thing"));
+	}
+
+
+	void OnDestroy() {
+		GameObject.Find("FinalScore").GetComponent<FinalScore>().showFinalScore();
 	}
    
 	void OnCollisionEnter2D (Collision2D obj) {
@@ -210,14 +214,14 @@ public class PandaGame : MonoBehaviour {
 	private void getBoost() {
 
 		if (string.Compare(currItemName, "redhardhat") == 0) {
-			hatCounter = 2;
+			hatCounter = 1;
 		} else if (string.Compare(currItemName, "bluehardhat") == 0) {
-			hatCounter = 3;
-		} else if (string.Compare(currItemName, "speedhat") == 0) {
 			hatCounter = 2;
+		} else if (string.Compare(currItemName, "speedhat") == 0) {
+			hatCounter = 1;
 			speed *= 2f;
 		} else if (string.Compare(currItemName, "whitehardhat") == 0) {
-			hatCounter = 5;
+			hatCounter = 4;
 		} else {
 			hatCounter = 1;
 		}

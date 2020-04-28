@@ -11,14 +11,19 @@ public class MainMenu : MonoBehaviour {
 	public GameObject shopCanvas;
 	public GameObject recordsCanvas;
 	public GameObject chooseModeCanvas;
+	public GameObject infoCanvas;
+
 	public GameObject itemsShop;
 	public GameObject bgShop;
-	
+
 
 	void Awake() {
 		// setting font size in stats
 		int size = GameObject.Find("TimerStateValue").GetComponent<Text> ().fontSize;
 		GameObject.Find("HungyStatePercent").GetComponent<Text> ().fontSize = size;
+		if (PlayerPrefs.GetFloat("hungryTime") > 0) {
+			setTimer();
+		}
 	}
 
 
@@ -29,23 +34,42 @@ public class MainMenu : MonoBehaviour {
 		setPlayerStats();
 
 		recordsCanvas = GameObject.Find ("RecordsCanvas");
-		recordsCanvas.SetActive (false); // КОСТЫЛЬ!!!!
 		shopCanvas = GameObject.Find("ShopCanvas");
-		shopCanvas.SetActive (false);
 		chooseModeCanvas = GameObject.Find("ChooseModeCanvas");
+		infoCanvas = GameObject.Find ("InfoCanvas");
+		
+		recordsCanvas.SetActive (false); 
+		shopCanvas.SetActive (false);
 		chooseModeCanvas.SetActive(false);
-
+		infoCanvas.SetActive(false);
 	}
 	
 
 	// Update is called once per frame
 	void Update () {
+
 		setPlayerStats();
 
 		takeScreenShot();
 		resetPlayerPrefs();
 
 	}
+
+
+	void OnDestroy() {
+		PlayerPrefs.SetString("lastTimeEntered", System.DateTime.Now.ToString());
+	}
+
+
+
+    void OnApplicationPause(bool pauseStatus) {
+    	if (pauseStatus) {
+        	PlayerPrefs.SetString("lastTimeEntered", System.DateTime.Now.ToString());
+    	} else {
+    		setTimer();
+    	}
+    }
+
 
 	private void checkStart() {
 		if (Application.isEditor == false){
@@ -72,7 +96,9 @@ public class MainMenu : MonoBehaviour {
 		PlayerPrefs.SetString("background", "BackgroundDefault");
 		PlayerPrefs.SetInt("eatenBamboo", 0);
 		PlayerPrefs.SetInt("maxBamboo", 100);
+		PlayerPrefs.SetFloat("maxHungryTime", 3600.0f);
 		PlayerPrefs.SetFloat("hungryTime", 0.0f);
+		PlayerPrefs.SetString("lastTimeEntered", System.DateTime.Now.ToString());
 
 	}
 
@@ -94,6 +120,8 @@ public class MainMenu : MonoBehaviour {
 			GameObject.Find("HungyStatePercent").GetComponent<Text>().text = currPercent;
 		}
 
+		updateHungryTimer();
+
 		float timeToDisplay = PlayerPrefs.GetFloat("hungryTime");
 
 		float minutes = Mathf.FloorToInt(timeToDisplay / 60);  
@@ -102,7 +130,32 @@ public class MainMenu : MonoBehaviour {
 		GameObject.Find("TimerStateValue").GetComponent<Text> ().text = string.Format("{0:00}:{1:00}", minutes, seconds);
 	}
 
-	private void timerUpdate() {
-		//
+	private void updateHungryTimer(){
+		float timer = PlayerPrefs.GetFloat("hungryTime");
+		if (timer > 0) {
+			PlayerPrefs.SetFloat("hungryTime", timer - Time.deltaTime);
+			updateEatenBamboo();
+		} else {
+			PlayerPrefs.SetFloat("hungryTime", 0);
+			PlayerPrefs.SetInt("eatenBamboo", 0);
+		}
+
 	}
+
+	private void setTimer() {
+		float timer = PlayerPrefs.GetFloat("hungryTime");
+		string past = PlayerPrefs.GetString("lastTimeEntered");
+		string now = System.DateTime.Now.ToString();
+		TimeSpan diff = System.DateTime.Parse(now) - System.DateTime.Parse(past);
+		PlayerPrefs.SetFloat("hungryTime", timer - (float)diff.TotalSeconds);
+	}
+
+	private void updateEatenBamboo() {
+		float currTimer = PlayerPrefs.GetFloat("hungryTime");
+		float timePerBamboo = PlayerPrefs.GetFloat("maxHungryTime") / PlayerPrefs.GetInt("maxBamboo");
+		int eatenBamboo = (int) (currTimer / timePerBamboo) + 1;
+		
+		PlayerPrefs.SetInt("eatenBamboo", eatenBamboo);
+	}
+	
 }

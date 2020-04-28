@@ -14,19 +14,29 @@ public class FinalScore : MonoBehaviour {
         
     }
 
+    void OnDestroy() {
+        // Bottom.cs line 45
+    }
+
     public void showFinalScore() {
-        setScore();
-        setEatenBamboo(); //save to PlayerPrefs        
+        if ( SceneManager.GetActiveScene().name == "ArcadeMode") {
+            setScore();
+            setEatenBamboo(); //save to PlayerPrefs   
+        }
     }
 
     private void setEatenBamboo() {
         int eatenBamboo = PlayerPrefs.GetInt("eatenBamboo") + score;
         int maxBamboo =  PlayerPrefs.GetInt("maxBamboo");
+        float timePerBamboo = PlayerPrefs.GetFloat("maxHungryTime") / maxBamboo;
 
-        if (eatenBamboo <= maxBamboo) {
+
+        if (eatenBamboo < maxBamboo) {
            PlayerPrefs.SetInt("eatenBamboo", eatenBamboo);
+           PlayerPrefs.SetFloat("hungryTime", eatenBamboo * timePerBamboo);
         } else {
            PlayerPrefs.SetInt("eatenBamboo", maxBamboo);
+           PlayerPrefs.SetFloat("hungryTime", PlayerPrefs.GetFloat("maxHungryTime"));
         }
     }
 

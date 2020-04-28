@@ -14,9 +14,16 @@ public class CanvasCloseButton : MonoBehaviour {
 
 			GameObject.Find("Canvas").GetComponent<MainMenu>().recordsCanvas.SetActive (false);
 			GameObject.Find("Canvas").GetComponent<MainMenu>().shopCanvas.SetActive (false);
-			GameObject.Find("Canvas").GetComponent<MainMenu>().chooseModeCanvas.SetActive (false);
+			GameObject.Find("Canvas").GetComponent<MainMenu>().infoCanvas.SetActive (false);
+			if (transform.parent.name != "InfoCanvas") {
+				GameObject.Find("Canvas").GetComponent<MainMenu>().chooseModeCanvas.SetActive (false);
+			} else {
+				GameObject.Find("Canvas").GetComponent<MainMenu>().chooseModeCanvas.SetActive (true);
+			}
+			
 		} else {
 			GameObject.Find("Bottom").GetComponent<Bottom>().shopCanvas.SetActive (false);
+			GameObject.Find("Bottom").GetComponent<Bottom>().infoCanvas.SetActive (false);
 			GameObject.Find("Bottom").GetComponent<Bottom>().loseCanvas.SetActive(true);
 		}
 	}

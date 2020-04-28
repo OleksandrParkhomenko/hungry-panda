@@ -14,15 +14,21 @@ public class Timer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		SurvivalMode canvasAM = GameObject.Find ("Canvas").GetComponent<SurvivalMode> ();
-		if (!canvasAM.pause && !canvasAM.gameOver) {
+		SurvivalMode canvas = GameObject.Find ("Canvas").GetComponent<SurvivalMode> ();
+		if (!canvas.pause && !canvas.gameOver) {
 			timeToDisplay += Time.deltaTime;
 		}
-		canvasAM.timerToDisplay = timeToDisplay;
+		canvas.timerToDisplay = timeToDisplay;
 
 		float minutes = Mathf.FloorToInt(timeToDisplay / 60);  
   		float seconds = Mathf.FloorToInt(timeToDisplay % 60);
 
 		GetComponent<Text> ().text = string.Format("{0:00}:{1:00}", minutes, seconds);
+	}
+
+	void OnDestroy() {
+		Debug.Log(PlayerPrefs.GetFloat("hungryTime"));
+		Debug.Log((float)(Mathf.FloorToInt(timeToDisplay) * 4));
+		PlayerPrefs.SetFloat("hungryTime", PlayerPrefs.GetFloat("hungryTime") - (float)(Mathf.FloorToInt(timeToDisplay) * 9));
 	}
 }
