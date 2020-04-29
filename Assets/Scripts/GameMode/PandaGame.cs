@@ -23,12 +23,19 @@ public class PandaGame : MonoBehaviour {
 	public GameObject shopCanvas;
 	public GameObject loseCanvas;
 
+	private AudioSource itemSound;
+	private AudioSource coinSound;
+	private AudioSource stoneSound;
+	private AudioSource biteSound1;
+	private AudioSource biteSound2;
+
 	// Use this for initialization
 	void Start () {
 		anim = GetComponent<Animator> ();
 		
 		gameObject.SetActive(true);
 		
+		setSounds();
 		chooseBackground();
 		chooseItem();
 	}
@@ -101,20 +108,40 @@ public class PandaGame : MonoBehaviour {
 		}
 	}
 
+	private void playBiteSound() {
+		int sound = UnityEngine.Random.Range (1, 3);
+		if (sound == 1) {
+			biteSound1.Play();
+		} else {
+			biteSound2.Play();
+		}
+	}
+
+	private void setSounds() {
+		itemSound = GameObject.Find("ItemSound").GetComponent<AudioSource>();
+		coinSound = GameObject.Find("CoinSound").GetComponent<AudioSource>();
+		stoneSound = GameObject.Find("StoneSound").GetComponent<AudioSource>();
+		biteSound1 = GameObject.Find("BiteSound1").GetComponent<AudioSource>();
+		biteSound2 = GameObject.Find("BiteSound2").GetComponent<AudioSource>();
+	}
 
 	public void HandleCollision(Collision2D obj) {
 		if (obj.gameObject.tag == "bamboo") {
+			playBiteSound();
 			points++;
 		} else if (obj.gameObject.tag == "additionalLife") {
 			lives++;
+			itemSound.Play();
 		} else if (obj.gameObject.tag == "speedUp") {
 			speed *= 2f;
 			speedUp = true;
+			itemSound.Play();
 		} else if (obj.gameObject.tag == "stone" || obj.gameObject.tag == "shuriken") {
 			if (hatCounter > 0) hatCounter--;
 			else lives--;
 		} else if (obj.gameObject.tag == "coin") {
 			currCoins += 1;
+			coinSound.Play();
 			PlayerPrefs.SetInt ("coins", PlayerPrefs.GetInt ("coins") + 1);
 		} else if (obj.gameObject.tag == "arrow") {
 			lives--;

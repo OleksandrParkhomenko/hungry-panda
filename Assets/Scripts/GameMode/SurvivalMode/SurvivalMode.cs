@@ -20,6 +20,9 @@ public class SurvivalMode : MonoBehaviour {
 	public bool gameOver = false;
 	public string score;
 
+	private AudioSource shurikenSound;
+
+
 	float timerTurn = 1.7f;
 	float timeCounter = 0f;
 	float gravityScale = 0.35f;
@@ -35,13 +38,6 @@ public class SurvivalMode : MonoBehaviour {
 	void Start () {
 		PlayerPrefs.SetInt("adsCounter", PlayerPrefs.GetInt("adsCounter") + 1);
 		
-		// if (PlayerPrefs.GetString ("thing") == "red-hardhat") {
-		// 	GameObject.Find ("Panda").GetComponent<PandaGame> ().hat = "red";
-		// } else if (PlayerPrefs.GetString ("thing") == "yellow-hardhat"){
-		// 	GameObject.Find ("Panda").GetComponent<PandaGame> ().hat = "yellow";
-		// } else {
-		// 	GameObject.Find ("Panda").GetComponent<PandaGame> ().hat = "none";
-		// }
 		timeForAddLife = Random.Range (5, 25);
 		timeForCoin = Random.Range (5, 8);
 		timeForSpeedUp = Random.Range (10, 20);
@@ -58,9 +54,12 @@ public class SurvivalMode : MonoBehaviour {
 		//loseCanvas.SetActive (false);
 		//shopCanvas.SetActive(false); //both deactivate in Bottom.cs
 
+		shurikenSound = GameObject.Find("ShurikenSound").GetComponent<AudioSource>();
+
 	}
 
 	void GameOver() {
+		GameObject.Find("Bottom").GetComponent<Bottom>().playGameOverSound();
 		GetComponent<InterstitialAds>().checkAdCounter();
 
 
@@ -115,13 +114,7 @@ public class SurvivalMode : MonoBehaviour {
 			//spawning items
 			if (timer ()) {
 				GameObject currGO;
-				// if (itemCounter == timeForAddLife) {
-				// 	currGO = Instantiate (additionalLife);
-				// 	timeForStone++;
-				// 	timeForCoin++;
-				// 	timeForSpeedUp++;
-				// 	timeForAddLife += Random.Range (10, 15);
-				// } else
+				
 				if (itemCounter == timeForCoin) {
 					currGO = Instantiate (coin);
 					timeForStone++;
@@ -137,6 +130,7 @@ public class SurvivalMode : MonoBehaviour {
 				} else {
 					currGO = Instantiate (shuriken);
 					currGO.GetComponent<SpriteRenderer>().color = new Color (0.8f, 0.7f, 2f, 1f);
+					StartCoroutine(throwShurikenSound());
 				}
 				
 				currGO.transform.SetParent (this.gameObject.transform, false);
@@ -170,6 +164,11 @@ public class SurvivalMode : MonoBehaviour {
 		}
 		return false;
 	}
+
+	private	IEnumerator throwShurikenSound(){
+    	yield return new WaitForSeconds (0.5f);
+    	shurikenSound.Play();
+ 	}
 
 }
 

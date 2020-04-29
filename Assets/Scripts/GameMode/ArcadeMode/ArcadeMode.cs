@@ -17,6 +17,7 @@ public class ArcadeMode : MonoBehaviour {
 	public bool gameOver = false;
 	public int score;
 
+
 	float timerTurn = 2f;
 	float timeCounter = 0f;
 	float gravityScale = 0.35f;
@@ -49,9 +50,12 @@ public class ArcadeMode : MonoBehaviour {
 		//loseCanvas.SetActive (false);
 		//shopCanvas.SetActive(false); //both deactivate in Bottom.cs
 
+		
 	}
 
+
 	void GameOver() {
+		GameObject.Find("Bottom").GetComponent<Bottom>().playGameOverSound();
 		GetComponent<InterstitialAds>().checkAdCounter();
 
 		loseCanvas.SetActive (true);

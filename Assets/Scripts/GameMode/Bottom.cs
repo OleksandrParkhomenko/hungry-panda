@@ -16,6 +16,8 @@ public class Bottom : MonoBehaviour {
 
 	private GameObject[] backgrounds;
 
+	private AudioSource gameOverSound;
+
 	void Start() {
 		score = 0;
 		backgrounds = GameObject.FindGameObjectsWithTag("background");
@@ -70,6 +72,9 @@ public class Bottom : MonoBehaviour {
 		Destroy (obj.gameObject);
 	}
 
+	public void playGameOverSound() {
+		return;
+	}
 
 	private void chooseBackground() {
 
