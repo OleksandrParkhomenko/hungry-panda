@@ -142,8 +142,6 @@ public class PandaGame : MonoBehaviour {
 	}
 
 
-
-
 	//hat rotation // KOSTYL' GY
 	void HatUp() {
 		//itemRTransform.rotation = Quaternion.Euler(0, 180, 0);

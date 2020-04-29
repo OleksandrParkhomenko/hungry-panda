@@ -11,7 +11,11 @@ public class FinalScore : MonoBehaviour {
     }
 
     void Update() {
-        
+        if (Input.GetKeyDown(KeyCode.Home)) {
+            PlayerPrefs.SetInt("eatenBamboo", PlayerPrefs.GetInt("maxBamboo"));
+            PlayerPrefs.SetFloat("hungryTime", PlayerPrefs.GetFloat("maxHungryTime"));
+            Debug.Log("eatenBamboo set to max");
+        }    
     }
 
     void OnDestroy() {
@@ -38,6 +42,8 @@ public class FinalScore : MonoBehaviour {
            PlayerPrefs.SetInt("eatenBamboo", maxBamboo);
            PlayerPrefs.SetFloat("hungryTime", PlayerPrefs.GetFloat("maxHungryTime"));
         }
+
+        PlayerPrefs.SetFloat("hungryTime", PlayerPrefs.GetFloat("hungryTime"));
     }
 
     private void setScore() {

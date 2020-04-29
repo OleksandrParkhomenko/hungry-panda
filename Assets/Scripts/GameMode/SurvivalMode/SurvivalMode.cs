@@ -33,13 +33,15 @@ public class SurvivalMode : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		if (PlayerPrefs.GetString ("thing") == "red-hardhat") {
-			GameObject.Find ("Panda").GetComponent<PandaGame> ().hat = "red";
-		} else if (PlayerPrefs.GetString ("thing") == "yellow-hardhat"){
-			GameObject.Find ("Panda").GetComponent<PandaGame> ().hat = "yellow";
-		} else {
-			GameObject.Find ("Panda").GetComponent<PandaGame> ().hat = "none";
-		}
+		PlayerPrefs.SetInt("adsCounter", PlayerPrefs.GetInt("adsCounter") + 1);
+		
+		// if (PlayerPrefs.GetString ("thing") == "red-hardhat") {
+		// 	GameObject.Find ("Panda").GetComponent<PandaGame> ().hat = "red";
+		// } else if (PlayerPrefs.GetString ("thing") == "yellow-hardhat"){
+		// 	GameObject.Find ("Panda").GetComponent<PandaGame> ().hat = "yellow";
+		// } else {
+		// 	GameObject.Find ("Panda").GetComponent<PandaGame> ().hat = "none";
+		// }
 		timeForAddLife = Random.Range (5, 25);
 		timeForCoin = Random.Range (5, 8);
 		timeForSpeedUp = Random.Range (10, 20);
@@ -59,6 +61,9 @@ public class SurvivalMode : MonoBehaviour {
 	}
 
 	void GameOver() {
+		GetComponent<InterstitialAds>().checkAdCounter();
+
+
 		loseCanvas.SetActive (true);
 
 		float minutes = Mathf.FloorToInt(timerToDisplay / 60);  

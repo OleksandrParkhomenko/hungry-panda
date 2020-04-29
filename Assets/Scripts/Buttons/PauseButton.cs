@@ -11,6 +11,12 @@ public class PauseButton : MonoBehaviour {
 		PauseGame();
 	}
 
+	void OnApplicationPause(bool pauseStatus) {
+		if (pauseStatus) {
+        	PauseGame();
+    	}
+    }
+
 
 	public void PauseGame() {
 		string sceneName = SceneManager.GetActiveScene().name;
@@ -49,15 +55,8 @@ public class PauseButton : MonoBehaviour {
 	//         }  
 	//     }
 
- // 	#endif
  
- // 	#if UNITY_EDITOR || UNITY_IOS
-
-	//     void OnApplicationPause (bool pause) {
-	//         if (!pause){
-	//         	PauseGame();
-	//         }
-	//     }
+	//    
 
  // 	#endif	
 

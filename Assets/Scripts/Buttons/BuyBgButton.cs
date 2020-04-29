@@ -65,19 +65,24 @@ public class BuyBgButton : MonoBehaviour
 				textButton.text = "Take off";
 				coinIcon.SetActive(false);
 			}
-		}		
+		} else {
+			PlayerPrefs.SetString("background", bgName);
+			PlayerPrefs.SetInt(bgName, 1);
+		}	
 
 	}
 
 	private void checkState() {
+		currCoins = PlayerPrefs.GetInt("coins");
+
 		if (bgName == "BackgroundDefault") {
 			textButton.text = "Default";
 			coinIcon.SetActive(false);
 			if (PlayerPrefs.GetString("background") == bgName) {
 				GetComponent<Button>().interactable = false;
-				} else {
-					GetComponent<Button>().interactable = true;
-				}
+			} else {
+				GetComponent<Button>().interactable = true;
+			}
 
 		} else if (PlayerPrefs.GetString("background") == bgName) {
 			textButton.text = "Take off";
@@ -103,7 +108,8 @@ public class BuyBgButton : MonoBehaviour
 	private void setPrices() {
 		prices.Add("BackgroundChina", "20");
 		prices.Add("BackgroundChinaLaterns", "25");
-		prices.Add("BackgroundForest", "20");
+		prices.Add("BackgroundForest", "30");
+		prices.Add("BackgroundCity", "35");
 	}
 
 

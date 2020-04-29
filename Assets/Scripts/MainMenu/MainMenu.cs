@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.Advertisements;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour {
@@ -70,7 +71,6 @@ public class MainMenu : MonoBehaviour {
     	}
     }
 
-
 	private void checkStart() {
 		if (Application.isEditor == false){
 			if (PlayerPrefs.GetInt ("first-start") == 0 || !PlayerPrefs.HasKey("first-start")) {
@@ -90,6 +90,7 @@ public class MainMenu : MonoBehaviour {
 	private void clearPlayerPrefs() {
 		PlayerPrefs.DeleteAll ();
 		PlayerPrefs.SetInt ("first-start", 1);
+		PlayerPrefs.SetInt("adsCounter", 0);
 		PlayerPrefs.SetInt ("coins", 15);
 		PlayerPrefs.SetInt ("diamonds", 3);
 		PlayerPrefs.SetString("item", "none");

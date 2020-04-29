@@ -30,7 +30,8 @@ public class ArcadeMode : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		PlayerPrefs.SetInt("adsCounter", PlayerPrefs.GetInt("adsCounter") + 1);
+
 		timeForAddLife = Random.Range (5, 25);
 		timeForCoin = Random.Range (5, 10);
 		timeForSpeedUp = Random.Range (10, 20);
@@ -51,6 +52,8 @@ public class ArcadeMode : MonoBehaviour {
 	}
 
 	void GameOver() {
+		GetComponent<InterstitialAds>().checkAdCounter();
+
 		loseCanvas.SetActive (true);
 		score = GameObject.Find ("Panda").GetComponent<PandaGame> ().points;
 		Destroy(GameObject.Find("Canvas"));

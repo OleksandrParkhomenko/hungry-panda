@@ -47,7 +47,9 @@ public class Bottom : MonoBehaviour {
 	}
 
 	void OnApplicationPause(bool pauseStatus) {
-       	PlayerPrefs.SetString("lastTimeEntered", System.DateTime.Now.ToString());
+		if (pauseStatus) {
+        	PlayerPrefs.SetString("lastTimeEntered", System.DateTime.Now.ToString());
+    	}
     }
 
 	void OnCollisionEnter2D (Collision2D obj) {

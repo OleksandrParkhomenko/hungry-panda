@@ -27,8 +27,6 @@ public class Timer : MonoBehaviour {
 	}
 
 	void OnDestroy() {
-		Debug.Log(PlayerPrefs.GetFloat("hungryTime"));
-		Debug.Log((float)(Mathf.FloorToInt(timeToDisplay) * 4));
-		PlayerPrefs.SetFloat("hungryTime", PlayerPrefs.GetFloat("hungryTime") - (float)(Mathf.FloorToInt(timeToDisplay) * 9));
+		PlayerPrefs.SetFloat("hungryTime", PlayerPrefs.GetFloat("hungryTime") - (float)(Mathf.FloorToInt(timeToDisplay) * 4));
 	}
 }
